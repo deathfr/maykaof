@@ -305,7 +305,7 @@ async function publishPosts(){
 
 /* ===== LOAD POSTS FROM NETLIFY ===== */
 async function loadPosts(){
-    const res = await fetch("/posts.json",{cache:"no-store"});
+    const res = await fetch("/.netlify/functions/getPosts",{cache:"no-store"});
     posts = await res.json();
     render();
 }
