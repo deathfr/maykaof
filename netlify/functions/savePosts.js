@@ -2,6 +2,7 @@ import { getStore } from "@netlify/blobs";
 
 export async function handler(event) {
   try {
+    // --- AUTH ---
     const token = event.queryStringParameters?.token;
     if (token !== process.env.ADMIN_TOKEN) {
       return {
@@ -10,11 +11,34 @@ export async function handler(event) {
       };
     }
 
-    const store = getStore("posts");
-    const body = JSON.parse(event.body);
+    // --- PARSE BODY (NAJWAŻNIEJSZE) ---
+    if (!event.body) {
+      return {
+        statusCode: 400,
+        body: "No body"
+      };
+    }
 
-    // zapisujemy CAŁE posty jako jeden JSON
-    await store.set("posts", JSON.stringify(body));
+    let posts;
+    try {
+      posts = JSON.parse(event.body);
+    } catch {
+      return {
+        statusCode: 400,
+        body: "Invalid JSON"
+      };
+    }
+
+    if (!Array.isArray(posts)) {
+      return {
+        statusCode: 400,
+        body: "Posts must be array"
+      };
+    }
+
+    // --- SAVE TO BLOBS ---
+    const store = getStore("posts");
+    await store.set("posts", JSON.stringify(posts));
 
     return {
       statusCode: 200,
@@ -24,7 +48,7 @@ export async function handler(event) {
   } catch (err) {
     return {
       statusCode: 500,
-      body: err.toString()
+      body: err.message || err.toString()
     };
   }
 }
