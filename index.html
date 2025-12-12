@@ -305,10 +305,16 @@ async function publishPosts(){
 
 /* ===== LOAD POSTS FROM NETLIFY ===== */
 async function loadPosts(){
-    const res = await fetch("/.netlify/functions/getPosts",{cache:"no-store"});
-    posts = await res.json();
+    try {
+        const res = await fetch("/.netlify/functions/getPosts",{cache:"no-store"});
+        const data = await res.json();
+        posts = Array.isArray(data) ? data : [];
+    } catch {
+        posts = [];
+    }
     render();
 }
+
 
 /* ===== EDIT / DELETE ===== */
 function deletePost(i){
