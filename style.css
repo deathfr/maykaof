@@ -16,7 +16,7 @@ body{
   color:var(--text);
 }
 
-/* ===== LAYOUT ===== */
+/* ===== LAYOUT (DESKTOP) ===== */
 .layout{
   display:flex;
   max-width:1200px;
@@ -25,7 +25,7 @@ body{
   gap:24px;
 }
 
-/* ===== PROFILE ===== */
+/* ===== PROFILE (DESKTOP) ===== */
 .profile{
   width:320px;
   background:var(--panel);
@@ -78,24 +78,10 @@ body{
 }
 
 /* ===== FEED ===== */
-.feed{flex:1}
-
-.top-bar{
-  display:flex;
-  justify-content:flex-end;
-  margin-bottom:16px;
+.feed{
+  flex:1;
+  min-width:0; /* IMPORTANT: flex overflow fix */
 }
-
-.add-toggle{
-  background:var(--accent);
-  border:none;
-  padding:10px 18px;
-  border-radius:999px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.add-post{display:none}
 
 /* ===== POST ===== */
 .post{
@@ -136,6 +122,7 @@ body{
   font-size:12px;
 }
 
+/* ===== DESKTOP NAV ===== */
 .nav{
   position:absolute;
   top:50%;
@@ -163,25 +150,37 @@ body{
   margin-top:6px;
 }
 
-/* ================= MOBILE ================= */
+/* ================================================= */
+/* ================= MOBILE FIX ==================== */
+/* ================================================= */
+
 @media (max-width:768px){
 
+  /* STACK layout */
   .layout{
     flex-direction:column;
     padding:0;
     gap:0;
   }
 
+  /* 🔥 CRITICAL FIX */
   .profile{
     width:100%;
-    height:auto;
+    height:auto !important;        /* FIX 100vh BUG */
+    max-height:none !important;
     position:sticky;
     top:0;
     z-index:20;
     border-radius:0 0 18px 18px;
   }
 
-  .banner{height:180px}
+  .banner{
+    height:180px;
+  }
+
+  .profile-content{
+    padding:14px;
+  }
 
   .avatar{
     width:86px;
@@ -189,15 +188,18 @@ body{
     margin:-48px auto 10px;
   }
 
+  /* FEED MUST EXIST */
+  .feed{
+    padding:14px;
+    min-height:100vh;
+  }
+
+  /* HIDE EDIT UI */
   .top-bar,
   .add-post,
   .actions,
   .nav{
     display:none !important;
-  }
-
-  .feed{
-    padding:14px;
   }
 
   .slider img{
