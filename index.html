@@ -21,12 +21,37 @@
       <div class="avatar">
         <img src="https://res.cloudinary.com/dwwvvrjwx/image/upload/v1765583512/avatar_xzw0o4.jpg">
       </div>
+
       <div class="profile-name">ϻᴀᴊᴋᴀ.𝗓</div>
       <div class="profile-handle">@ϻᴀᴊᴋᴀ.𝗓</div>
+
+      <!-- 🔥 NOWY OPIS -->
+      <div class="profile-bio">
+        Premium content • exclusive photosets • daily drops ✨  
+        Subskrybenci mają dostęp do pełnych postów
+      </div>
+
+      <!-- 🔥 ZNACZNIK SUBSKRYPCJI -->
+      <div class="profile-badge">
+        ✔ Subskrypcja aktywna
+      </div>
     </div>
   </aside>
 
   <main class="feed">
+
+    <!-- 🔧 PANEL ADMINA (TYLKO edit=true) -->
+    <div class="top-bar" id="creatorBar">
+      <button class="add-toggle" onclick="toggleAdd()">➕ Dodaj post</button>
+    </div>
+
+    <div class="add-post" id="addPostBox">
+      <input id="titleInput" placeholder="Tytuł posta">
+      <textarea id="descInput" placeholder="Opis posta"></textarea>
+      <input type="file" id="imageInput" multiple accept="image/*">
+      <button onclick="addPost()">Opublikuj</button>
+    </div>
+
     <div id="posts"></div>
   </main>
 </div>
@@ -38,4 +63,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
