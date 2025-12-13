@@ -8,48 +8,48 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="layout">
 
-  <aside class="profile">
-    <div class="banner">
-      <img src="https://res.cloudinary.com/dwwvvrjwx/image/upload/v1765583294/banner_akxt72.png">
+<aside class="profile">
+  <div class="banner">
+    <img src="https://res.cloudinary.com/dwwvvrjwx/image/upload/v1765583294/banner_akxt72.png">
+  </div>
+
+  <div class="profile-content">
+    <div class="avatar">
+      <img src="https://res.cloudinary.com/dwwvvrjwx/image/upload/v1765583512/avatar_xzw0o4.jpg">
     </div>
 
-    <div class="profile-content">
-      <div class="avatar">
-        <img src="https://res.cloudinary.com/dwwvvrjwx/image/upload/v1765583512/avatar_xzw0o4.jpg">
-      </div>
+    <div class="profile-name">MAJKA.z</div>
+    <div class="profile-handle">@MAJKA.z</div>
 
-      <div class="profile-name">MAJKA.z</div>
-      <div class="profile-handle">@MAJKA.z</div>
-
-      <div class="profile-desc">
-        Premium content • exclusive photosets • daily drops ✨<br>
-        Subskrybenci mają dostęp do pełnych postów
-      </div>
-
-      <div class="sub-status">✔ Subskrypcja aktywna</div>
-    </div>
-  </aside>
-
-  <main class="feed">
-
-    <div class="top-bar" id="creatorBar">
-      <button class="add-toggle" onclick="toggleAdd()">＋ Dodaj post</button>
+    <div class="profile-desc">
+      Premium content • exclusive photosets • daily drops ✨<br>
+      Subskrybenci mają dostęp do pełnych postów
     </div>
 
-    <div class="add-post" id="addPostBox">
-      <input id="titleInput" placeholder="Tytuł posta">
-      <textarea id="descInput" placeholder="Opis posta"></textarea>
-      <input type="file" id="imageInput" multiple accept="image/*,video/mp4,video/webm">
-      <button onclick="addPost()">Opublikuj</button>
-    </div>
+    <div class="sub-status">✔ Subskrypcja aktywna</div>
+  </div>
+</aside>
 
-    <div id="posts"></div>
-  </main>
+<main class="feed">
+
+  <div class="top-bar" id="creatorBar">
+    <button class="add-toggle" onclick="toggleAdd()">＋ Dodaj post</button>
+  </div>
+
+  <div class="add-post" id="addPostBox">
+    <input id="titleInput" placeholder="Tytuł posta">
+    <textarea id="descInput" placeholder="Opis posta"></textarea>
+    <input type="file" id="imageInput" multiple accept="image/*,video/mp4,video/webm">
+    <button onclick="addPost()">Opublikuj</button>
+  </div>
+
+  <div id="posts"></div>
+
+</main>
 </div>
 
 <div class="modal" id="editModal">
