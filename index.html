@@ -44,7 +44,7 @@
     <div class="add-post" id="addPostBox">
       <input id="titleInput" placeholder="Tytuł posta">
       <textarea id="descInput" placeholder="Opis posta"></textarea>
-      <input type="file" id="imageInput" multiple accept="image/*">
+      <input type="file" id="imageInput" multiple accept="image/*,video/mp4,video/webm">
       <button onclick="addPost()">Opublikuj</button>
     </div>
 
@@ -63,12 +63,8 @@
   </div>
 </div>
 
-<div class="fullscreen" id="fullscreen">
-  <img id="fsImg">
-</div>
+<div class="fullscreen" id="fullscreen"></div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
