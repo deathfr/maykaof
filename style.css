@@ -1,221 +1,47 @@
-:root{
-  --bg:#0e1014;
-  --panel:#171a21;
-  --text:#e8e9ea;
-  --muted:#9aa0a6;
-  --accent:#00c4cc;
-  --radius:14px;
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Inter,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-
-/* ===== LAYOUT ===== */
-.layout{
-  display:flex;
-  max-width:1200px;
-  margin:auto;
-  padding:20px;
-  gap:24px;
-}
-
-/* ===== PROFILE (DESKTOP) ===== */
-.profile{
-  width:320px;
-  background:var(--panel);
-  border-radius:var(--radius);
-  position:sticky;
-  top:20px;
-  height:calc(100vh - 40px);
-  overflow:hidden;
-}
-
-.banner{
-  height:150px;
-  overflow:hidden;
-}
-
-.banner img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.profile-content{
-  text-align:center;
-  padding:18px;
-}
-
-.avatar{
-  width:96px;
-  height:96px;
-  border-radius:50%;
-  overflow:hidden;
-  margin:-60px auto 12px;
-  border:4px solid var(--panel);
-}
-
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.profile-name{
-  font-size:20px;
-  font-weight:700;
-}
-
-.profile-handle{
-  color:var(--muted);
+.profile-bio{
   font-size:14px;
+  color:var(--muted);
+  margin-top:10px;
+  line-height:1.4;
 }
 
-/* ===== FEED ===== */
-.feed{
-  flex:1;
-  min-width:0;
-}
-
-/* ===== POST CARD ===== */
-.post{
-  background:var(--panel);
-  border-radius:var(--radius);
-  padding:14px;
-  margin-bottom:22px;
-}
-
-/* ===== SLIDER ===== */
-.slider{
-  position:relative;
-  background:#000;
-  border-radius:12px;
-  overflow:hidden;
-
-  /* STAŁA WYSOKOŚĆ POSTA */
-  height:420px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.slider img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  cursor:pointer;
-}
-
-/* ===== COUNTER ===== */
-.counter{
-  position:absolute;
-  bottom:8px;
-  right:8px;
-  background:rgba(0,0,0,.6);
-  padding:4px 10px;
-  border-radius:20px;
-  font-size:12px;
-}
-
-/* ===== DESKTOP NAV ===== */
-.nav{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background:rgba(0,0,0,.6);
-  border:none;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  color:#fff;
-  cursor:pointer;
-}
-
-.prev{left:12px}
-.next{right:12px}
-
-/* ===== TEXT ===== */
-.post-title{
-  font-size:16px;
-  font-weight:600;
+.profile-badge{
   margin-top:12px;
+  display:inline-block;
+  background:rgba(0,196,204,.15);
+  color:var(--accent);
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
 }
 
-.post-desc{
-  color:var(--muted);
-  font-size:14px;
-  margin-top:6px;
-}
-
-/* ===== FULLSCREEN (DESKTOP + MOBILE) ===== */
-.fullscreen{
+/* MODAL */
+.modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.96);
+  background:rgba(0,0,0,.6);
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:999;
+  z-index:1000;
 }
 
-.fullscreen img{
-  max-width:95%;
-  max-height:95%;
-  object-fit:contain;
+.modal-box{
+  background:var(--panel);
+  padding:20px;
+  border-radius:var(--radius);
+  width:320px;
 }
 
-/* ================= MOBILE ================= */
-@media (max-width:768px){
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:10px;
+}
 
-  /* layout stack */
-  .layout{
-    flex-direction:column;
-    padding:0;
-    gap:0;
-  }
-
-  /* ❌ NO STICKY ON MOBILE */
-  .profile{
-    width:100%;
-    height:auto;
-    position:static;
-    border-radius:0;
-  }
-
-  .banner{
-    height:180px;
-  }
-
-  .profile-content{
-    padding:14px;
-  }
-
-  .avatar{
-    width:86px;
-    height:86px;
-    margin:-48px auto 10px;
-  }
-
-  .feed{
-    padding:14px;
-  }
-
-  /* hide desktop-only UI */
-  .nav,
-  .top-bar,
-  .add-post,
-  .actions{
-    display:none !important;
-  }
-
-  /* mniejsze, równe posty */
-  .slider{
-    height:360px;
-  }
+.modal-actions .primary{
+  background:var(--accent);
+  color:#000;
 }
