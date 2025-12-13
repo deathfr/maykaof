@@ -18,7 +18,10 @@ const editDesc=document.getElementById("editDesc");
 
 let posts=[],editIndex=null;
 let fsImages=[],fsIndex=0;
+
+/* fullscreen gesture state */
 let scale=1,startDist=0,startScale=1;
+let fsStartX=0,isPinching=false;
 
 if(isCreator) creatorBar.style.display="flex";
 
@@ -26,6 +29,7 @@ function toggleAdd(){
   addBox.style.display=addBox.style.display==="block"?"none":"block";
 }
 
+/* ===== LOAD ===== */
 async function loadPosts(){
   const r=await fetch(`${PB_URL}/api/collections/${PB_COLLECTION}/records?sort=-created`);
   const d=await r.json();
@@ -33,9 +37,11 @@ async function loadPosts(){
   render();
 }
 
+/* ===== ADD ===== */
 async function addPost(){
   const files=[...imageInput.files];
   if(!files.length)return;
+
   const post={title:titleInput.value,desc:descInput.value,images:[]};
 
   for(const f of files){
@@ -57,6 +63,7 @@ async function addPost(){
   loadPosts();
 }
 
+/* ===== EDIT ===== */
 function openEdit(i){
   editIndex=i;
   editTitle.value=posts[i].title;
@@ -64,7 +71,9 @@ function openEdit(i){
   editModal.style.display="flex";
 }
 
-function closeModal(){editModal.style.display="none"}
+function closeModal(){
+  editModal.style.display="none";
+}
 
 async function saveEdit(){
   const p=posts[editIndex];
@@ -77,6 +86,7 @@ async function saveEdit(){
   loadPosts();
 }
 
+/* ===== DELETE ===== */
 async function deletePost(i){
   if(!confirm("Usunąć post?"))return;
   await fetch(`${PB_URL}/api/collections/${PB_COLLECTION}/records/${posts[i].id}`,{
@@ -85,6 +95,7 @@ async function deletePost(i){
   loadPosts();
 }
 
+/* ===== FULLSCREEN ===== */
 function openFullscreen(images,index){
   fsImages=images;
   fsIndex=index;
@@ -96,15 +107,21 @@ function openFullscreen(images,index){
 
 fullscreen.onclick=()=>fullscreen.style.display="none";
 
+/* pinch start */
 fullscreen.addEventListener("touchstart",e=>{
   if(e.touches.length===2){
+    isPinching=true;
     const dx=e.touches[0].clientX-e.touches[1].clientX;
     const dy=e.touches[0].clientY-e.touches[1].clientY;
     startDist=Math.hypot(dx,dy);
     startScale=scale;
   }
+  if(e.touches.length===1){
+    fsStartX=e.touches[0].clientX;
+  }
 });
 
+/* pinch move */
 fullscreen.addEventListener("touchmove",e=>{
   if(e.touches.length===2){
     const dx=e.touches[0].clientX-e.touches[1].clientX;
@@ -114,10 +131,32 @@ fullscreen.addEventListener("touchmove",e=>{
   }
 });
 
+/* swipe end */
+fullscreen.addEventListener("touchend",e=>{
+  if(isPinching){
+    isPinching=false;
+    return;
+  }
+
+  if(scale>1) return;
+
+  const endX=e.changedTouches[0].clientX;
+  const diff=fsStartX-endX;
+
+  if(Math.abs(diff)>60){
+    fsIndex=diff>0
+      ? (fsIndex+1)%fsImages.length
+      : (fsIndex-1+fsImages.length)%fsImages.length;
+    fsImg.src=fsImages[fsIndex];
+  }
+});
+
+/* ===== RENDER ===== */
 function render(){
   postsEl.innerHTML="";
   posts.forEach((p,idx)=>{
     let i=0,startX=0;
+
     const post=document.createElement("div");
     post.className="post";
 
@@ -129,9 +168,12 @@ function render(){
     counter.className="counter";
 
     const prev=document.createElement("button");
-    prev.className="nav prev";prev.textContent="◀";
+    prev.className="nav prev";
+    prev.textContent="◀";
+
     const next=document.createElement("button");
-    next.className="nav next";next.textContent="▶";
+    next.className="nav next";
+    next.textContent="▶";
 
     function update(){
       img.src=p.images[i];
@@ -145,7 +187,10 @@ function render(){
 
     slider.onclick=()=>openFullscreen(p.images,i);
 
-    slider.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+    slider.addEventListener("touchstart",e=>{
+      startX=e.touches[0].clientX;
+    });
+
     slider.addEventListener("touchend",e=>{
       const diff=startX-e.changedTouches[0].clientX;
       if(Math.abs(diff)>50){
@@ -157,10 +202,12 @@ function render(){
     slider.append(img,prev,next,counter);
 
     const t=document.createElement("div");
-    t.className="post-title";t.textContent=p.title;
+    t.className="post-title";
+    t.textContent=p.title;
 
     const d=document.createElement("div");
-    d.className="post-desc";d.textContent=p.desc;
+    d.className="post-desc";
+    d.textContent=p.desc;
 
     const a=document.createElement("div");
     a.className="actions";
@@ -169,9 +216,11 @@ function render(){
       const e=document.createElement("button");
       e.textContent="✏️ Edytuj";
       e.onclick=()=>openEdit(idx);
+
       const x=document.createElement("button");
       x.textContent="🗑 Usuń";
       x.onclick=()=>deletePost(idx);
+
       a.append(e,x);
     }
 
