@@ -16,7 +16,7 @@ body{
   color:var(--text);
 }
 
-/* ===== LAYOUT (DESKTOP) ===== */
+/* ===== LAYOUT ===== */
 .layout{
   display:flex;
   max-width:1200px;
@@ -80,10 +80,10 @@ body{
 /* ===== FEED ===== */
 .feed{
   flex:1;
-  min-width:0; /* IMPORTANT: flex overflow fix */
+  min-width:0;
 }
 
-/* ===== POST ===== */
+/* ===== POST CARD ===== */
 .post{
   background:var(--panel);
   border-radius:var(--radius);
@@ -97,21 +97,22 @@ body{
   background:#000;
   border-radius:12px;
   overflow:hidden;
+
+  /* STAŁA WYSOKOŚĆ POSTA */
+  height:420px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .slider img{
   width:100%;
-  max-height:520px;
-  object-fit:contain;
-  transition:transform .25s ease;
-  cursor:zoom-in;
+  height:100%;
+  object-fit:cover;
+  cursor:pointer;
 }
 
-.slider img.zoomed{
-  transform:scale(1.8);
-  cursor:zoom-out;
-}
-
+/* ===== COUNTER ===== */
 .counter{
   position:absolute;
   bottom:8px;
@@ -129,15 +130,17 @@ body{
   transform:translateY(-50%);
   background:rgba(0,0,0,.6);
   border:none;
-  width:38px;
-  height:38px;
+  width:40px;
+  height:40px;
   border-radius:50%;
   color:#fff;
+  cursor:pointer;
 }
 
-.prev{left:10px}
-.next{right:10px}
+.prev{left:12px}
+.next{right:12px}
 
+/* ===== TEXT ===== */
 .post-title{
   font-size:16px;
   font-weight:600;
@@ -150,28 +153,39 @@ body{
   margin-top:6px;
 }
 
-/* ================================================= */
-/* ================= MOBILE FIX ==================== */
-/* ================================================= */
+/* ===== FULLSCREEN (DESKTOP + MOBILE) ===== */
+.fullscreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.96);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
 
+.fullscreen img{
+  max-width:95%;
+  max-height:95%;
+  object-fit:contain;
+}
+
+/* ================= MOBILE ================= */
 @media (max-width:768px){
 
-  /* STACK layout */
+  /* layout stack */
   .layout{
     flex-direction:column;
     padding:0;
     gap:0;
   }
 
-  /* 🔥 CRITICAL FIX */
+  /* ❌ NO STICKY ON MOBILE */
   .profile{
     width:100%;
-    height:auto !important;        /* FIX 100vh BUG */
-    max-height:none !important;
-    position:sticky;
-    top:0;
-    z-index:20;
-    border-radius:0 0 18px 18px;
+    height:auto;
+    position:static;
+    border-radius:0;
   }
 
   .banner{
@@ -188,21 +202,20 @@ body{
     margin:-48px auto 10px;
   }
 
-  /* FEED MUST EXIST */
   .feed{
     padding:14px;
-    min-height:100vh;
   }
 
-  /* HIDE EDIT UI */
+  /* hide desktop-only UI */
+  .nav,
   .top-bar,
   .add-post,
-  .actions,
-  .nav{
+  .actions{
     display:none !important;
   }
 
-  .slider img{
-    max-height:420px;
+  /* mniejsze, równe posty */
+  .slider{
+    height:360px;
   }
 }
