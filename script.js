@@ -1,8 +1,7 @@
 const PB_URL="https://acg.baby/pb";
 const PB_COLLECTION="majka";
 const PB_PASS="martyna123";
-const CLOUD_NAME="dwwvvrjwx";
-const UPLOAD_PRESET="web_unsigned";
+const IMGBB_KEY="8d351960d7494e2ef3a58b0c3ebf12cf";
 
 const isCreator=new URLSearchParams(location.search).get("edit")==="true";
 
@@ -46,11 +45,11 @@ async function addPost(){
 
   for(const f of files){
     const fd=new FormData();
-    fd.append("file",f);
-    fd.append("upload_preset",UPLOAD_PRESET);
-    const r=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,{method:"POST",body:fd});
+    fd.append("image",f);
+    const r=await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`,{method:"POST",body:fd});
     const d=await r.json();
-    post.images.push(d.secure_url);
+    if(!d?.data?.url) continue;
+    post.images.push(d.data.url);
   }
 
   await fetch(`${PB_URL}/api/collections/${PB_COLLECTION}/records`,{
